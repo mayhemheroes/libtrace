@@ -1,0 +1,19 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential automake pkg-config libtool libpcap-dev bison flex libz-dev libbz2-dev liblzma-dev liblzo2-dev liblz4-dev libzstd-dev
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
+RUN git clone https://github.com/wanduow/wandio
+WORKDIR /wandio
+RUN ./bootstrap.sh
+RUN ./configure
+RUN make -j8
+RUN make install
+
+COPY . /repo
+WORKDIR /repo
+RUN ./bootstrap.sh
+RUN ./configure
+RUN make -j8
+ENV LD_LIBRARY_PATH=/usr/local/lib:/repo/lib/.libs:/repo/libpacketdump/.libs
