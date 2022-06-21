@@ -1,5 +1,5 @@
-project: rnshah9/libtrace
-target: libtrace
+project: libtrace
+target: tracepktdump
 
 cmds:
   - cmd: /repo/tools/tracepktdump/.libs/tracepktdump @@
