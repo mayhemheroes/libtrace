@@ -2,4 +2,4 @@ project: libtrace
 target: tracepktdump
 
 cmds:
-  - cmd: /repo/tools/tracepktdump/.libs/tracepktdump @@
+  - cmd: /install/bin/tracepktdump @@

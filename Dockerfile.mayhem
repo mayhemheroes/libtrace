@@ -7,22 +7,24 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
 RUN git clone https://github.com/wanduow/wandio
 WORKDIR /wandio
 RUN ./bootstrap.sh
-RUN ./configure
+RUN ./configure --prefix=/install
+RUN make -j8
+RUN make install
+
+RUN ./configure 
 RUN make -j8
 RUN make install
 
 COPY . /repo
 WORKDIR /repo
 RUN ./bootstrap.sh
-RUN ./configure
+RUN ./configure --prefix=/install
 RUN make -j8
+RUN make install
 ENV LD_LIBRARY_PATH=/usr/local/lib:/repo/lib/.libs:/repo/libpacketdump/.libs
 
-RUN mkdir -p /deps
-RUN ldd /repo/tools/tracepktdump/.libs/tracepktdump | tr -s '[:blank:]' '\n' | grep '^/' | xargs -I % sh -c 'cp % /deps;'
-
 FROM ubuntu:22.04 as package
-
-COPY --from=builder /deps /deps
-COPY --from=builder /repo/tools/tracepktdump/.libs/tracepktdump /repo/tools/tracepktdump/.libs/tracepktdump
-ENV LD_LIBRARY_PATH=/deps
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libpcap-dev liblzo2-dev
+COPY --from=builder /install /install
+ENV LD_LIBRARY_PATH=/install/lib
