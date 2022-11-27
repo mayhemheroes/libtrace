@@ -51,7 +51,8 @@ jobs:
       fail-fast: false
       matrix:
         mayhemfile:
-          - mayhem/Mayhemfile
+          - mayhem/Mayhemfile_finish_checksum
+          - mayhem/Mayhemfile_tracepktdump
 
     steps:
       - uses: actions/checkout@v2
