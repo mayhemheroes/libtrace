@@ -1,0 +1,5 @@
+project: libtrace
+target: tracepktdump
+
+cmds:
+  - cmd: /install/bin/tracepktdump @@
