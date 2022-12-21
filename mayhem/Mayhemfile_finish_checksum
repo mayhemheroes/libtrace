@@ -1,0 +1,6 @@
+project: libtrace
+target: finish-checksum
+
+cmds:
+  - cmd: /fuzz_finish_checksum
+    libfuzzer: true
